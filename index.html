@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seu Lanche | Venda mais pelo seu próprio canal</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap");
+
+    /* Seu Lanche - landing page v2. Tudo escopado em .landing-wrap. */
+    .landing-wrap {
+      --night: #120f24;
+      --night-2: #1d1936;
+      --ink: #120f24;
+      --yellow: #ffd23f;
+      --red: #d62839;
+      --green: #2bd98a;
+      --soft: #c9c6e2;
+      --mist: #f3f4f9;
+      --line: rgba(255, 255, 255, .14);
+
+      font-family: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--night);
+      color: #f6f4ff;
+      line-height: 1.55;
+      overflow-x: clip;
+    }
+    .landing-wrap *, .landing-wrap *::before, .landing-wrap *::after { box-sizing: border-box; }
+    .landing-wrap h1, .landing-wrap h2, .landing-wrap h3 { font-family: "Bricolage Grotesque", "Figtree", sans-serif; font-weight: 800; letter-spacing: -0.03em; margin: 0; }
+    .landing-wrap p { margin: 0; }
+    .landing-wrap ul, .landing-wrap ol { margin: 0; padding: 0; list-style: none; }
+    .landing-container { width: min(1160px, 100% - 40px); margin-inline: auto; }
+    .landing-wrap :focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; border-radius: 6px; }
+
+    /* Botões */
+    .landing-button { display: inline-flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 28px; border: 2px solid var(--yellow); border-radius: 14px; font: 700 1.05rem/1 "Figtree", sans-serif; text-decoration: none; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease; }
+    .landing-button-primary { background: var(--yellow); color: var(--ink); box-shadow: 4px 4px 0 var(--red); }
+    .landing-button-primary:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--red); }
+    .landing-button-ghost { color: #fff; border-color: var(--line); }
+    .landing-button-ghost:hover { background: var(--night-2); }
+    .landing-button-dark { background: var(--ink); color: var(--yellow); border-color: var(--ink); min-height: 62px; padding: 0 36px; font-size: 1.15rem; }
+    .landing-button-dark:hover { transform: translateY(-2px); }
+
+    /* Toldo */
+    .landing-awning { position: absolute; top: 0; left: 0; right: 0; height: 54px; pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg, var(--red) 0 36px, #fff 36px 72px) 0 0 / 100% 36px no-repeat,
+        radial-gradient(circle at 18px 0, var(--red) 17.5px, transparent 18px) 0 36px / 72px 18px repeat-x,
+        radial-gradient(circle at 54px 0, #fff 17.5px, transparent 18px) 0 36px / 72px 18px repeat-x; }
+
+    /* Hero */
+    .landing-hero { padding: 64px 0 72px; }
+    .landing-hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 48px; align-items: center; }
+    .landing-hero h1 { font-size: clamp(2.5rem, 5.2vw, 4.3rem); line-height: 1.02; }
+    .landing-hero h1 span { display: block; }
+    .landing-lead { margin-top: 26px; max-width: 34em; font-size: 1.2rem; color: var(--soft); }
+    .landing-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 34px; }
+    .landing-assurances { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 26px; font-size: .95rem; font-weight: 600; color: var(--soft); }
+    .landing-assurances li { display: inline-flex; align-items: center; gap: 8px; }
+    .landing-assurances li::before { content: "✓"; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--green); color: var(--ink); font-size: .72rem; font-weight: 800; }
+
+    /* Cena do hero */
+    .landing-scene { position: relative; min-height: 560px; }
+    .landing-rays { position: absolute; inset: -6% -10%; background: repeating-conic-gradient(from 0deg at 50% 52%, rgba(255, 210, 63, .2) 0 7deg, transparent 7deg 14deg); -webkit-mask-image: radial-gradient(circle at 50% 52%, #000 12%, transparent 68%); mask-image: radial-gradient(circle at 50% 52%, #000 12%, transparent 68%); }
+    .landing-phone { position: absolute; left: 14%; top: 28px; width: 262px; background: #fff; color: var(--ink); border: 7px solid var(--ink); outline: 3px solid var(--yellow); border-radius: 36px; padding: 18px 14px 14px; }
+    .landing-phone-head { padding: 0 4px 12px; border-bottom: 1px solid #e0e2ee; }
+    .landing-phone-head strong { display: block; font: 800 1.1rem "Bricolage Grotesque", sans-serif; letter-spacing: -0.02em; }
+    .landing-phone-head span { display: block; margin-top: 2px; font-size: .66rem; color: #50526a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .landing-phone-menu li { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "info plus" "price plus"; gap: 2px 10px; padding: 12px 4px; border-bottom: 1px solid #e0e2ee; }
+    .landing-phone-menu div { grid-area: info; }
+    .landing-phone-menu b { display: block; font-size: .88rem; line-height: 1.2; }
+    .landing-phone-menu small { display: block; font-size: .72rem; color: #50526a; }
+    .landing-phone-menu span { grid-area: price; font-size: .85rem; font-weight: 700; }
+    .landing-phone-menu i { grid-area: plus; align-self: center; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--yellow); border: 2px solid var(--ink); font-style: normal; font-weight: 800; line-height: 1; }
+    .landing-phone-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 14px 16px; background: var(--ink); color: var(--yellow); border-radius: 14px; font-size: .9rem; font-weight: 700; }
+
+    /* Comanda (wrapper tem a sombra, o papel tem a animação) */
+    .landing-ticket { position: absolute; right: 0; bottom: 70px; width: 218px; color: var(--ink); transform: rotate(3deg); filter: drop-shadow(5px 6px 0 rgba(0, 0, 0, .55)); }
+    .landing-ticket-paper { position: relative; padding: 16px 16px 14px; background: #fff; font-size: .84rem; font-variant-numeric: tabular-nums; animation: landing-print 1.1s cubic-bezier(.3, .7, .3, 1) .5s both; }
+    .landing-ticket-paper::after { content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 10px; background: linear-gradient(135deg, #fff 5px, transparent 0) 0 0 / 10px 10px, linear-gradient(225deg, #fff 5px, transparent 0) 0 0 / 10px 10px; }
+    .landing-ticket-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .landing-ticket-top strong { font: 800 1.02rem "Bricolage Grotesque", sans-serif; }
+    .landing-ticket-where { margin: 6px 0 10px; color: #50526a; font-size: .78rem; }
+    .landing-ticket ul { display: grid; gap: 6px; padding: 10px 0; border-top: 1px dashed #50526a; border-bottom: 1px dashed #50526a; }
+    .landing-ticket li em { font-style: normal; font-weight: 700; color: var(--red); }
+    .landing-ticket-pay { margin-top: 10px; font-weight: 700; }
+    .landing-chip-box { position: relative; display: inline-block; width: 74px; height: 24px; }
+    .landing-chip { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 999px; font-size: .72rem; font-weight: 700; }
+    .landing-chip-wait, .landing-chip-static { background: #fff4c9; border: 1px solid var(--yellow); }
+    .landing-chip-wait { animation: landing-fade-out .3s ease 4.4s forwards; }
+    .landing-chip-done { background: var(--green); color: var(--ink); opacity: 0; animation: landing-fade-in .3s ease 4.4s forwards; }
+    .landing-chip-static { position: static; width: 74px; height: 24px; }
+    .landing-ticket-static { position: relative; right: auto; bottom: auto; width: 100%; max-width: 300px; transform: rotate(-2deg); }
+    .landing-ticket-static .landing-ticket-paper { animation: none; }
+
+    /* Adesivos e mascote */
+    .landing-sticker { position: absolute; padding: 8px 16px; border: 3px solid var(--ink); border-radius: 999px; font-weight: 800; font-size: .95rem; color: var(--ink); box-shadow: 3px 3px 0 var(--ink); opacity: 0; animation: landing-pop .5s cubic-bezier(.3, 1.6, .5, 1) forwards; }
+    .landing-sticker-pix { top: 20px; right: 4%; background: var(--green); transform: rotate(6deg); animation-delay: 1.2s; }
+    .landing-sticker-fiado { top: 190px; left: -2%; background: var(--yellow); transform: rotate(-6deg); animation-delay: 1.6s; }
+    .landing-mascot-spot { position: absolute; left: -2%; bottom: 0; width: 190px; }
+    .landing-mascot { display: block; width: 100%; height: auto; filter: drop-shadow(0 8px 0 rgba(0, 0, 0, .35)); transform-origin: 50% 100%; }
+    .landing-mascot-spot:hover .landing-mascot { animation: landing-wiggle .6s ease; }
+    .landing-bubble { position: relative; margin: 0 0 14px 40px; padding: 10px 14px; width: max-content; max-width: 210px; background: #fff; color: var(--ink); border: 3px solid var(--ink); border-radius: 16px; font-weight: 700; font-size: .9rem; line-height: 1.25; }
+    .landing-bubble::after { content: ""; position: absolute; left: 28px; bottom: -13px; width: 18px; height: 18px; background: #fff; border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); transform: rotate(45deg) skew(8deg, 8deg); }
+
+    @keyframes landing-print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 -14px 0); } }
+    @keyframes landing-fade-out { to { opacity: 0; } }
+    @keyframes landing-fade-in { to { opacity: 1; } }
+    @keyframes landing-pop { from { opacity: 0; scale: .5; } to { opacity: 1; scale: 1; } }
+    @keyframes landing-wiggle { 25% { rotate: -6deg; } 60% { rotate: 5deg; } }
+    @keyframes landing-scroll { to { transform: translateX(-50%); } }
+
+    /* Faixa rolante */
+    .landing-marquee { background: var(--yellow); color: var(--ink); border-block: 3px solid var(--ink); overflow: hidden; transform: rotate(-1deg); margin-inline: -2%; }
+    .landing-marquee-track { display: flex; width: max-content; animation: landing-scroll 32s linear infinite; }
+    .landing-marquee ul { display: flex; flex: none; }
+    .landing-marquee li { padding: 14px 0; font: 800 1.3rem "Bricolage Grotesque", sans-serif; letter-spacing: -0.02em; }
+    .landing-marquee li::after { content: "✦"; margin: 0 28px; color: var(--red); }
+
+    /* Seções */
+    .landing-section { padding: 96px 0; }
+    .landing-section-heading { max-width: 42rem; margin-bottom: 48px; }
+    .landing-section-heading h2, .landing-process h2, .landing-faq h2 { font-size: clamp(2rem, 3.8vw, 3rem); line-height: 1.06; }
+    .landing-section-heading p { margin-top: 16px; font-size: 1.12rem; color: var(--soft); }
+
+    /* Números */
+    .landing-numbers { padding-bottom: 24px; }
+    .landing-numbers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+    .landing-numbers strong { display: block; font: 800 clamp(2.4rem, 4.4vw, 3.6rem) "Bricolage Grotesque", sans-serif; letter-spacing: -0.04em; line-height: 1; color: var(--yellow); }
+    .landing-numbers span { display: block; margin-top: 10px; color: var(--soft); max-width: 15em; }
+
+    /* Pilares */
+    .landing-pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: start; }
+    .landing-pillar { padding: 32px; border: 3px solid var(--ink); border-radius: 24px; color: var(--ink); box-shadow: 8px 8px 0 rgba(0, 0, 0, .45); }
+    .landing-pillar:nth-child(1) { background: var(--yellow); transform: rotate(-1deg); }
+    .landing-pillar:nth-child(2) { background: var(--red); color: #fff; margin-top: 28px; }
+    .landing-pillar:nth-child(3) { background: var(--green); transform: rotate(1deg); }
+    .landing-pillar h3 { font-size: 2.4rem; }
+    .landing-pillar-title { margin: 6px 0 14px; font: 800 1.2rem/1.2 "Bricolage Grotesque", sans-serif; letter-spacing: -0.02em; }
+    .landing-urlpill { margin-top: 22px; padding: 14px 16px; background: #fff; color: var(--ink); border: 2px solid var(--ink); border-radius: 12px; font-weight: 600; font-size: .9rem; overflow-wrap: anywhere; }
+    .landing-urlpill b { background: var(--yellow); padding: 0 4px; }
+    .landing-flow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .landing-flow li { padding: 6px 14px; border-radius: 999px; background: rgba(255, 255, 255, .2); border: 2px solid #fff; font-weight: 700; font-size: .9rem; }
+    .landing-flow li:nth-child(3) { background: var(--green); border-color: var(--ink); color: var(--ink); }
+    .landing-ledger { margin-top: 22px; background: #fff; border: 2px solid var(--ink); border-radius: 12px; background-image: repeating-linear-gradient(transparent 0 35px, #e0e2ee 35px 36px); }
+    .landing-ledger div { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 14px; height: 36px; font-size: .88rem; }
+    .landing-ledger b { color: var(--red); }
+    .landing-ledger b.paid { color: #0b7a49; }
+
+    /* Crachás */
+    .landing-team { background: var(--night-2); }
+    .landing-badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .landing-badge { background: #fff; color: var(--ink); border-radius: 18px; border: 3px solid var(--ink); overflow: hidden; box-shadow: 6px 6px 0 var(--yellow); }
+    .landing-badge span { display: block; padding: 10px 16px; background: var(--red); color: #fff; font-weight: 700; font-size: .95rem; }
+    .landing-badge strong { display: block; padding: 18px 16px 4px; font: 800 2rem "Bricolage Grotesque", sans-serif; letter-spacing: -0.03em; }
+    .landing-badge p { padding: 0 16px 22px; color: #50526a; }
+    .landing-badge:nth-child(odd) { transform: rotate(-1deg); }
+    .landing-badge:nth-child(even) { transform: rotate(1deg); }
+
+    /* Zap x comanda */
+    .landing-versus { background: var(--mist); color: var(--ink); }
+    .landing-versus .landing-section-heading { max-width: 46rem; }
+    .landing-versus-grid { display: flex; align-items: center; justify-content: center; gap: 40px; flex-wrap: wrap; }
+    .landing-chat { display: grid; gap: 8px; width: min(100%, 340px); padding: 20px; background: #ece5dd; border: 3px solid var(--ink); border-radius: 24px; }
+    .landing-chat p { max-width: 80%; padding: 9px 14px; border-radius: 14px; font-size: .95rem; box-shadow: 0 1px 0 rgba(0, 0, 0, .15); }
+    .landing-chat .in { background: #fff; justify-self: start; }
+    .landing-chat .out { background: #d9fdd3; justify-self: end; }
+    .landing-versus-vira { display: grid; place-items: center; width: 84px; height: 84px; border-radius: 50%; background: var(--yellow); border: 3px solid var(--ink); font: 800 1.3rem "Bricolage Grotesque", sans-serif; transform: rotate(-8deg); }
+
+    /* Passos */
+    .landing-process-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 56px; align-items: center; }
+    .landing-steps { display: grid; gap: 24px; margin-top: 36px; }
+    .landing-steps li { display: flex; gap: 20px; align-items: flex-start; }
+    .landing-steps li > span { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--yellow); color: var(--ink); font: 800 1.35rem "Bricolage Grotesque", sans-serif; }
+    .landing-steps strong { display: block; margin-top: 3px; font: 800 1.3rem "Bricolage Grotesque", sans-serif; letter-spacing: -0.02em; }
+    .landing-steps p { margin-top: 2px; color: var(--soft); }
+    .landing-mascot-spot-big { position: relative; left: auto; bottom: auto; width: min(100%, 300px); margin-inline: auto; }
+
+    /* Dúvidas */
+    .landing-faq { background: var(--night-2); }
+    .landing-faq-box { max-width: 760px; }
+    .landing-faq h2 { margin-bottom: 28px; }
+    .landing-faq details { margin-bottom: 12px; padding: 0 24px; background: var(--night); border: 2px solid var(--line); border-radius: 14px; }
+    .landing-faq details[open] { border-color: var(--yellow); }
+    .landing-faq summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; font-weight: 700; font-size: 1.05rem; cursor: pointer; list-style: none; }
+    .landing-faq summary::-webkit-details-marker { display: none; }
+    .landing-faq summary::after { content: "+"; flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--yellow); color: var(--ink); font-size: 1.2rem; transition: transform .2s ease; }
+    .landing-faq details[open] summary::after { transform: rotate(45deg); }
+    .landing-faq details p { padding-bottom: 22px; color: var(--soft); }
+
+    /* CTA final */
+    .landing-cta { position: relative; padding: 132px 0 96px; background: var(--yellow); color: var(--ink); text-align: center; }
+    .landing-cta h2 { max-width: 16em; margin: 0 auto; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.04; }
+    .landing-cta p { max-width: 30em; margin: 22px auto 36px; font-size: 1.2rem; }
+    .landing-cta small { display: block; margin-top: 20px; font-weight: 600; }
+
+    /* Responsivo */
+    @media (max-width: 960px) {
+      .landing-hero { padding-top: 40px; }
+      .landing-hero-grid, .landing-process-grid { grid-template-columns: 1fr; gap: 40px; }
+      .landing-section { padding: 72px 0; }
+      .landing-numbers-grid, .landing-badges { grid-template-columns: repeat(2, 1fr); }
+      .landing-pillars-grid { grid-template-columns: 1fr; }
+      .landing-pillar:nth-child(2) { margin-top: 0; }
+      .landing-scene { max-width: 460px; margin-inline: auto; width: 100%; }
+    }
+    @media (max-width: 520px) {
+      .landing-scene { min-height: 600px; }
+      .landing-phone { left: 6%; width: 240px; }
+      .landing-ticket { width: 190px; bottom: 90px; }
+      .landing-mascot-spot { width: 150px; }
+      .landing-button { width: 100%; }
+      .landing-numbers-grid, .landing-badges { grid-template-columns: 1fr; }
+      .landing-versus-vira { width: 68px; height: 68px; }
+    }
+
+    /* Movimento reduzido */
+    @media (prefers-reduced-motion: reduce) {
+      .landing-wrap *, .landing-wrap *::before, .landing-wrap *::after { animation: none !important; transition: none !important; }
+      .landing-sticker { opacity: 1; }
+      .landing-chip-wait { opacity: 0; }
+      .landing-chip-done { opacity: 1; }
+      .landing-marquee-track { width: auto; flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body class="landing-page">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="landing-mascot-art" viewBox="0 0 200 200">
+      <g stroke="#120f24" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+        <ellipse cx="72" cy="190" rx="20" ry="8" fill="#ff4d4f"/>
+        <ellipse cx="128" cy="190" rx="20" ry="8" fill="#ff4d4f"/>
+        <path d="M26 142H174C174 168 150 182 100 182C50 182 26 168 26 142Z" fill="#f5a623"/>
+        <rect x="24" y="108" width="152" height="30" rx="15" fill="#6b3a24"/>
+        <path d="M28 104H172V114L150 130L130 114H28Z" fill="#ffd23f"/>
+        <path d="M20 100q10 14 20 0t20 0t20 0t20 0t20 0t20 0t20 0t20 0" fill="#2bd98a"/>
+        <path d="M30 98C30 44 68 20 100 20C132 20 170 44 170 98Z" fill="#f5a623"/>
+      </g>
+      <g fill="#fff3c4"><ellipse cx="62" cy="40" rx="6" ry="3" transform="rotate(-25 62 40)"/><ellipse cx="100" cy="30" rx="6" ry="3"/><ellipse cx="138" cy="40" rx="6" ry="3" transform="rotate(25 138 40)"/></g>
+      <circle cx="74" cy="66" r="13" fill="#fff" stroke="#120f24" stroke-width="4"/>
+      <circle cx="126" cy="66" r="13" fill="#fff" stroke="#120f24" stroke-width="4"/>
+      <circle cx="77" cy="68" r="6" fill="#120f24"/><circle cx="123" cy="68" r="6" fill="#120f24"/>
+      <path d="M80 84Q100 104 120 84" fill="#fff" stroke="#120f24" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="54" cy="86" rx="8" ry="5" fill="#ff4d4f" opacity=".55"/><ellipse cx="146" cy="86" rx="8" ry="5" fill="#ff4d4f" opacity=".55"/>
+    </symbol>
+  </svg>
+
+  <div class="landing-wrap">
+
+    <!-- Hero -->
+    <section class="landing-hero">
+      <div class="landing-container landing-hero-grid">
+        <div class="landing-hero-copy">
+          <h1>
+            <span>Pedido no seu link.</span>
+            <span>Comanda na cozinha.</span>
+            <span>Dinheiro no caixa.</span>
+          </h1>
+          <p class="landing-lead">
+            O Seu Lanche é o cardápio online da sua lanchonete: o cliente pede pelo celular,
+            a cozinha recebe a comanda certinha e você acompanha vendas e fiado sem caderneta.
+          </p>
+          <div class="landing-actions">
+            <a href="#" class="landing-button landing-button-primary">Criar meu cardápio grátis</a>
+            <a href="#" class="landing-button landing-button-ghost">Já sou cliente</a>
+          </div>
+          <ul class="landing-assurances">
+            <li>Comece grátis</li>
+            <li>Sem cartão de crédito</li>
+            <li>Cliente pede sem baixar app</li>
+          </ul>
+        </div>
+
+        <div class="landing-scene" aria-label="Cardápio no celular, comanda saindo na cozinha e o mascote do Seu Lanche">
+          <div class="landing-rays" aria-hidden="true"></div>
+
+          <div class="landing-phone">
+            <div class="landing-phone-head">
+              <strong>Sua Lanchonete</strong>
+              <span>seulanche.tempsolucoes.com.br/sua-lanchonete</span>
+            </div>
+            <ul class="landing-phone-menu">
+              <li><div><b>X-Salada</b><small>Pão, carne, queijo e salada</small></div><span>R$ 17,50</span><i aria-hidden="true">+</i></li>
+              <li><div><b>Tapioca de carne de sol</b><small>Com queijo coalho</small></div><span>R$ 14,00</span><i aria-hidden="true">+</i></li>
+              <li><div><b>Suco de acerola</b><small>500 ml</small></div><span>R$ 7,00</span><i aria-hidden="true">+</i></li>
+            </ul>
+            <div class="landing-phone-bar"><span>Ver sacola (2)</span><strong>R$ 35,00</strong></div>
+          </div>
+
+          <div class="landing-ticket">
+            <div class="landing-ticket-paper">
+              <div class="landing-ticket-top">
+                <strong>Pedido #1048</strong>
+                <span class="landing-chip-box">
+                  <span class="landing-chip landing-chip-wait">Na chapa</span>
+                  <span class="landing-chip landing-chip-done">Pronto</span>
+                </span>
+              </div>
+              <p class="landing-ticket-where">Para viagem, em nome de Maria</p>
+              <ul>
+                <li><b>2x</b> X-Salada <em>sem cebola</em></li>
+                <li><b>1x</b> Suco de acerola</li>
+              </ul>
+              <p class="landing-ticket-pay">Pago no Pix: R$ 42,00</p>
+            </div>
+          </div>
+
+          <span class="landing-sticker landing-sticker-pix">Pix recebido</span>
+          <span class="landing-sticker landing-sticker-fiado">Fiado em dia</span>
+
+          <div class="landing-mascot-spot">
+            <p class="landing-bubble">Pedido novo na cozinha!</p>
+            <svg class="landing-mascot" viewBox="0 0 200 200" aria-hidden="true"><use href="#landing-mascot-art"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Faixa rolante -->
+    <div class="landing-marquee" aria-label="Para lanchonetes, tapiocarias, pizzarias, restaurantes, food trucks e carrinhos de lanche">
+      <div class="landing-marquee-track" aria-hidden="true">
+        <ul>
+          <li>Lanchonetes</li><li>Tapiocarias</li><li>Pizzarias</li><li>Restaurantes</li><li>Food trucks</li><li>Carrinhos de lanche</li>
+        </ul>
+        <ul>
+          <li>Lanchonetes</li><li>Tapiocarias</li><li>Pizzarias</li><li>Restaurantes</li><li>Food trucks</li><li>Carrinhos de lanche</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Números -->
+    <section class="landing-section landing-numbers">
+      <div class="landing-container landing-numbers-grid">
+        <div><strong>15 dias</strong><span>grátis para testar todos os recursos</span></div>
+        <div><strong>5 jeitos</strong><span>de receber: Pix, crédito, débito, dinheiro e fiado</span></div>
+        <div><strong>4 perfis</strong><span>garçom, caixa, chapeiro e gerente</span></div>
+        <div><strong>0 apps</strong><span>para o seu cliente baixar</span></div>
+      </div>
+    </section>
+
+    <!-- Pilares -->
+    <section class="landing-section landing-pillars" id="recursos">
+      <div class="landing-container">
+        <div class="landing-section-heading">
+          <h2>Venda, cozinha e caixa conversando entre si.</h2>
+          <p>Do cardápio ao fiado, sem juntar três aplicativos e uma caderneta.</p>
+        </div>
+        <div class="landing-pillars-grid">
+          <article class="landing-pillar landing-pillar-sell">
+            <h3>Venda</h3>
+            <p class="landing-pillar-title">Seu link, seu cardápio</p>
+            <p>Endereço próprio para colocar na bio do Instagram e mandar no WhatsApp. O cliente escolhe um item pronto ou monta o lanche do tamanho da fome, e opta por retirada, entrega ou consumo no local.</p>
+            <div class="landing-urlpill" aria-hidden="true">seulanche.tempsolucoes.com.br/<b>sua-lanchonete</b></div>
+          </article>
+          <article class="landing-pillar landing-pillar-kitchen">
+            <h3>Cozinha</h3>
+            <p class="landing-pillar-title">Cada pedido, da chapa até a entrega</p>
+            <p>A comanda chega completa, com as observações do cliente. A equipe vê o que já saiu e o que ainda falta.</p>
+            <ol class="landing-flow" aria-label="Etapas do pedido">
+              <li>Recebido</li><li>Na chapa</li><li>Pronto</li><li>Entregue</li>
+            </ol>
+          </article>
+          <article class="landing-pillar landing-pillar-cash">
+            <h3>Caixa</h3>
+            <p class="landing-pillar-title">Pix, cartão, dinheiro e fiado</p>
+            <p>O fiado vale só para os clientes que o gerente cadastra, e o caixa dá baixa quando a conta é paga.</p>
+            <div class="landing-ledger" aria-hidden="true">
+              <div><span>Dona Neide</span><b>R$ 48,00 em aberto</b></div>
+              <div><span>Seu Zé</span><b class="paid">Pago hoje</b></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Crachás da equipe -->
+    <section class="landing-section landing-team">
+      <div class="landing-container">
+        <div class="landing-section-heading">
+          <h2>Cada um no seu posto, ninguém pisando no pé do outro.</h2>
+        </div>
+        <div class="landing-badges">
+          <div class="landing-badge"><span>Oi, meu posto é</span><strong>Garçom</strong><p>Lança, edita e cancela pedidos antes de irem para a cozinha.</p></div>
+          <div class="landing-badge"><span>Oi, meu posto é</span><strong>Caixa</strong><p>Recebe o pagamento e dá baixa no fiado.</p></div>
+          <div class="landing-badge"><span>Oi, meu posto é</span><strong>Chapeiro</strong><p>Inicia e apronta os pedidos, e pausa o item que acabou.</p></div>
+          <div class="landing-badge"><span>Oi, meu posto é</span><strong>Gerente</strong><p>Controla tudo: equipe, cardápio, horários e clientes do fiado.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Zap x comanda -->
+    <section class="landing-section landing-versus" id="por-que">
+      <div class="landing-container">
+        <div class="landing-section-heading">
+          <h2>Pedido no zap vira bagunça. No Seu Lanche vira comanda.</h2>
+        </div>
+        <div class="landing-versus-grid">
+          <div class="landing-chat" aria-label="Exemplo de conversa confusa de pedido por WhatsApp">
+            <p class="in">boa noite, o que tem hoje?</p>
+            <p class="in">quero 2 x-salada</p>
+            <p class="in">sem cebola!!</p>
+            <p class="in">ah, não, era 3</p>
+            <p class="in">anota no fiado?</p>
+            <p class="out">Anotando aqui, só um minuto...</p>
+          </div>
+          <span class="landing-versus-vira" aria-hidden="true">vira</span>
+          <div class="landing-ticket landing-ticket-static">
+            <div class="landing-ticket-paper">
+              <div class="landing-ticket-top"><strong>Pedido #1049</strong><span class="landing-chip landing-chip-static">Na chapa</span></div>
+              <p class="landing-ticket-where">Consumo no local, em nome de João</p>
+              <ul><li><b>3x</b> X-Salada <em>sem cebola</em></li></ul>
+              <p class="landing-ticket-pay">Fiado: Seu João</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Como começar -->
+    <section class="landing-section landing-process" id="como-funciona">
+      <div class="landing-container landing-process-grid">
+        <div>
+          <h2>Em poucos minutos seu cardápio já está no ar.</h2>
+          <ol class="landing-steps">
+            <li><span>1</span><div><strong>Monte seu cardápio</strong><p>Cadastre produtos, adicionais e horários.</p></div></li>
+            <li><span>2</span><div><strong>Compartilhe seu link</strong><p>Coloque nas redes sociais e no WhatsApp.</p></div></li>
+            <li><span>3</span><div><strong>Receba e organize</strong><p>Acompanhe tudo em um único painel.</p></div></li>
+          </ol>
+        </div>
+        <div class="landing-mascot-spot landing-mascot-spot-big">
+          <p class="landing-bubble">Bora começar?</p>
+          <svg class="landing-mascot" viewBox="0 0 200 200" aria-hidden="true"><use href="#landing-mascot-art"/></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dúvidas -->
+    <section class="landing-section landing-faq" id="duvidas">
+      <div class="landing-container landing-faq-box">
+        <h2>Ainda com dúvida?</h2>
+        <details>
+          <summary>Meu cliente precisa baixar algum aplicativo?</summary>
+          <p>Não. O cardápio abre direto no navegador do celular. Para pedir, o cliente faz um cadastro simples com nome e celular.</p>
+        </details>
+        <details>
+          <summary>Serve para carrinho de lanche e negócio pequeno?</summary>
+          <p>Serve. O Seu Lanche foi pensado para pequenas lanchonetes e ambulantes, e funciona tanto para pedido pelo celular quanto no balcão.</p>
+        </details>
+        <details>
+          <summary>Preciso de cartão de crédito para testar?</summary>
+          <p>Não. Você começa grátis e tem 15 dias para experimentar todos os recursos.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- CTA final -->
+    <section class="landing-cta" id="comece">
+      <div class="landing-awning" aria-hidden="true"></div>
+      <div class="landing-container">
+        <h2>Seu próximo pedido já pode chegar pelo seu link.</h2>
+        <p>Crie seu cardápio hoje e deixe cozinha, caixa e fiado trabalharem juntos.</p>
+        <a href="#" class="landing-button landing-button-dark">Criar meu cardápio grátis</a>
+        <small>15 dias para experimentar todos os recursos. Sem cartão de crédito.</small>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
